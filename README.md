@@ -25,6 +25,9 @@ Such a situation can lead to two issues.
 This package offers solutions to allow for the inclusion or exclusion of
 these units within an uncomplicated workflow.
 
+A pre-print of a paper discussing the package is available
+[here](https://arxiv.org/abs/2404.09863).
+
 ## Installation
 
 Install the released version from CRAN:
@@ -89,13 +92,13 @@ post-functions can be used to extract the predictions.
 
 ### Step 1: Set up data (“*pre-functions*”)
 
-| function:               | purpose:                                                                                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| **st_bridges()**        | *Create a neighbours list, matrix, or `sf` dataframe containing a neighbours list or matrix as column “nb”, while accounting for islands.* |
-| **st_quickmap_nb()**    | *Check contiguities visually on map.*                                                                                                      |
-| **st_check_islands()**  | *Check assignment of island contiguities in a dataframe.*                                                                                  |
-| **st_manual_join_nb()** | *Make manual changes to any connections.*                                                                                                  |
-| **st_manual_cut_nb()**  | *Make manual changes to any connections.*                                                                                                  |
+| function: | purpose: |
+|----|----|
+| **st_bridges()** | *Create a neighbours list, matrix, or `sf` dataframe containing a neighbours list or matrix as column “nb”, while accounting for islands.* |
+| **st_quickmap_nb()** | *Check contiguities visually on map.* |
+| **st_check_islands()** | *Check assignment of island contiguities in a dataframe.* |
+| **st_force_join_nb()** | *Enforce changes to any connections.* |
+| **st_force_cut_nb()** | *Enforce changes to any connections.* |
 
 ### Step 2: Create model
 
@@ -104,10 +107,10 @@ inputs for a model using, for example, `mgcv`, `brms` or `inla`.
 
 ### Step 3: Examine output (“*post functions*”)
 
-| function:               | purpose:                                                 |
-|-------------------------|----------------------------------------------------------|
-| **st_augment()**        | *Augment the original dataframe with model predictions.* |
-| **st_quickmap_preds()** | *Generate quick maps of these predictions.*              |
+| function: | purpose: |
+|----|----|
+| **st_augment()** | *Augment the original dataframe with model predictions.* |
+| **st_quickmap_preds()** | *Generate quick maps of these predictions.* |
 
 ## Workflow
 
@@ -138,8 +141,9 @@ which it computes is:
     `link_islands_k` argument.
 
 ``` r
-nbsf <- st_bridges(df = uk_election |> filter(country == "Scotland"),
-                   geom_col_name = "constituency_name",
+scotland_df <- uk_election |> filter(country == "Scotland")
+nbsf <- st_bridges(df = scotland_df,
+                   row_identifier = "constituency_name",
                    link_islands_k = 2)
 ```
 
@@ -227,16 +231,16 @@ edit these contiguities. For instance, we may not be happy with the
 connection between 47 (Na h-Eileanan An Iar) and 51 (Orkney and
 Shetland) and wish to remove it. We might instead feel that it is
 important for 47 and 5 to be considered neighbours. This can be easily
-achieved, as shown below, using the `st_manual_cut_nb()` and
-`st_manual_join_nb()` functions. The spatial units whose relationships
-we wish to change can be referenced by name or by index number.
+achieved, as shown below, using the `st_force_cut_nb()` and
+`st_force_join_nb()` functions. The spatial units whose relationships we
+wish to change can be referenced by name or by index number.
 
 ``` r
 nbsf <- st_bridges(df = uk_election |> filter(country == "Scotland"),
-                   geom_col_name = "constituency_name",
+                   row_identifier = "constituency_name",
                    link_islands_k = 2) |> 
-  st_manual_cut_nb("Na h-Eileanan An Iar", "Orkney and Shetland") |> 
-  st_manual_join_nb(47, 5)
+  st_force_cut_nb("Na h-Eileanan An Iar", "Orkney and Shetland") |> 
+  st_force_join_nb(47, 5)
 ```
 
 The results of these changes as visualised in map form are shown below:
