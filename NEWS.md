@@ -1,3 +1,7 @@
+# sfislands 1.1.2
+
+# sfislands 1.1.1
+
 # sfislands 1.1.0
 
 ## New Features
@@ -25,3 +29,4 @@
 # sfislands 0.1.0
 
 - Initial development release.
+

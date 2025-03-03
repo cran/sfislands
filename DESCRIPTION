@@ -1,7 +1,7 @@
 Package: sfislands
 Type: Package
 Title: Streamlines the Process of Fitting Areal Spatial Models
-Version: 1.1.0
+Version: 1.1.2
 Authors@R: 
   c(person(given = "Kevin", 
           family = "Horan",
@@ -37,9 +37,9 @@ Depends: R (>= 4.1.0)
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2025-03-01 20:54:33 UTC; kevinhoran
+Packaged: 2025-03-02 16:43:04 UTC; kevinhoran
 Author: Kevin Horan [aut, cre, cph] (<https://orcid.org/0009-0003-9378-0084>),
   Katarina Domijan [aut, ths] (<https://orcid.org/0000-0002-4268-2236>),
   Chris Brunsdon [aut, ths] (<https://orcid.org/0000-0003-4254-1780>)
 Repository: CRAN
-Date/Publication: 2025-03-01 22:30:01 UTC
+Date/Publication: 2025-03-03 09:50:02 UTC
